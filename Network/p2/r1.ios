@@ -1,0 +1,70 @@
+hostname ttr1
+!
+ip dhcp excluded-address 192.168.10.1 192.168.10.10
+ip dhcp pool MGMT
+ network 192.168.10.0 255.255.255.224
+ default-router 192.168.10.1
+ dns-server 1.1.1.1
+!
+ip dhcp excluded-address 192.168.20.1 192.168.20.10
+ip dhcp pool MGMT
+ network 192.168.20.0 255.255.255.224
+ default-router 192.168.20.1
+ dns-server 1.1.1.1
+!
+ip dhcp excluded-address 192.168.30.1 192.168.30.10
+ip dhcp pool MGMT
+ network 192.168.30.0 255.255.255.224
+ default-router 192.168.30.1
+ dns-server 1.1.1.1
+!
+interface GigabitEthernet0/1
+ description WAN Link
+ ip nat outside
+ ip address dhcp
+ duplex auto
+ speed auto
+ no shutdown
+ !
+ interface GigabitEthernet0/0.10
+ description VLAN10 -> MGMT 
+ encapsulation dot1Q 10
+ ip nat inside
+ ip address 192.168.10.1 255.255.255.224
+ no shutdown
+ !
+ interface GigabitEthernet0/0.20
+ description VLAN20 -> Server 
+ encapsulation dot1Q 20
+ ip nat inside
+ ip address 192.168.20.1 255.255.255.224
+ no shutdown
+ !
+ interface GigabitEthernet0/0.30
+ description VLAN30 -> Client
+ encapsulation dot1Q 30
+ ip nat inside
+ ip address 192.168.30.1 255.255.255.224
+ no shutdown
+ !
+access-list 1 permit any
+ip nat inside source list 1 interface GigabitEthernet0/1 overload
+!
+ip domain-name tts.local
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2
+username ttr1 secret cisco
+enable secret cisco
+!
+line con 0
+login local
+password cisco
+!
+line aux 0
+login local
+password cisco
+!
+line vty 0 15
+login local
+password cisco
+transport input ssh

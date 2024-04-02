@@ -1,0 +1,43 @@
+hostname ttap1
+!
+ip domain name ttap1.tts.local
+ip name-server 1.1.1.1
+!
+ip default-gateway 192.168.30.1
+!
+interface BVI1
+ ip address 192.168.10.5 255.255.255.224
+ no shutdown
+!
+dot11 ssid tts
+ authentication open
+ authentication key-management wpa version 2
+ guest-mode
+ wpa-psk ascii kaffe12345
+!
+interface dot11Radio1
+ encryption mode ciphers aes-ccm
+ ssid tts
+ no shutdown
+!
+ip dhcp excluded-address 192.168.30.1 192.168.30.10
+ip dhcp pool CLIENTS
+ network 192.168.30.0 255.255.255.224
+ default-router 192.168.30.1
+ dns-server 1.1.1.1
+ lease 7
+!
+ip domain-name tts.local
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2
+username ttap1 secret cisco
+enable secret cisco
+!
+line con 0
+login local
+password cisco
+!
+line vty 0 15
+login local
+password cisco
+transport input ssh
