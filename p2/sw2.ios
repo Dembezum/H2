@@ -50,10 +50,20 @@ interface range fa0/10 - 24
  no shutdown
 !
 interface Vlan10
- ip address 192.168.10.3 255.255.255.224
+ ip address 192.168.10.4 255.255.255.224
  no shutdown
 !
-spanning-tree mode rapid-pvst
-spanning-tree vlan 10 priority 0
-spanning-tree vlan 20 priority 0
-spanning-tree vlan 30 priority 0
+ip domain-name tts.local
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2
+username ttsw2 secret cisco
+enable secret cisco
+!
+line con 0
+login local
+password cisco
+!
+line vty 0 15
+login local
+password cisco
+transport input ssh

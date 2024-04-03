@@ -3,7 +3,7 @@ hostname ttap1
 ip domain name ttap1.tts.local
 ip name-server 1.1.1.1
 !
-ip default-gateway 192.168.30.1
+ip default-gateway 192.168.10.1
 !
 interface BVI1
  ip address 192.168.10.5 255.255.255.224
@@ -19,13 +19,6 @@ interface dot11Radio1
  encryption mode ciphers aes-ccm
  ssid tts
  no shutdown
-!
-ip dhcp excluded-address 192.168.30.1 192.168.30.10
-ip dhcp pool CLIENTS
- network 192.168.30.0 255.255.255.224
- default-router 192.168.30.1
- dns-server 1.1.1.1
- lease 7
 !
 ip domain-name tts.local
 crypto key generate rsa general-keys modulus 1024
