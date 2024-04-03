@@ -7,6 +7,12 @@ vlan 20
 vlan 30
  name Client
 !
+interface range fa0/1 - 24
+ switchport port-security 
+ switchport port-security maximum 1
+ switchport port-security violation restrict
+ switchport port-security mac address sticky
+!
 interface GigabitEthernet0/1
  description "Link to r1"
  switchport trunk encapsulation dot1q
