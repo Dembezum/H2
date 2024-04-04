@@ -3,11 +3,10 @@
 ## Overview
 
 This outlines the configurations for a network setup designed to
-segment different types of traffic into management, server, and client VLANs,
+segment traffic into management, server, and client VLANs,
 ensuring good, organized, and efficient networking. 
 
-This setup
-includes configurations for a router (`ttr1`), 2 switches (`ttsw1`),(`ttsw2`) and an access
+The setup includes configurations for a router (`ttr1`), 2 switches (`ttsw1`),(`ttsw2`) and an access
 point (`ttap1`), along with DHCP services currently on the router, VLAN setup,
 and secure access protocols.
 
