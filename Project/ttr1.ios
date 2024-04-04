@@ -1,4 +1,21 @@
+enable
+conf t
+!
 hostname ttr1
+!
+ip dhcp excluded-address 192.168.0.1 192.168.0.10
+ip dhcp pool CLIENT 
+ network 192.168.0.0 255.255.255.0
+ default-router 192.168.0.1
+ dns-server 1.1.1.1 1.0.0.1
+ lease 7
+!
+ip dhcp excluded-address 172.16.0.1 172.16.0.10
+ip dhcp pool SERVER
+ network 172.16.0.0 255.255.255.224
+ default-router 172.16.0.1
+ dns-server 1.1.1.1 1.0.0.1
+ lease 7
 !
 interface GigabitEthernet0/1
  description WAN Link
@@ -29,7 +46,7 @@ interface GigabitEthernet0/0
  description VLAN30 -> Client
  encapsulation dot1Q 30
  ip nat inside
- ip address 192.168.0.1 255.255.255.224
+ ip address 192.168.0.1 255.255.255.0
  no shutdown
  !
 access-list 1 permit any
@@ -55,6 +72,7 @@ password cisco
 transport input ssh
 !
 router ospf 1
-network  10.0.0.0 0.0.0.31 area 0
-network  172.16.0.0 0.0.0.31 area 0
-network  192.168.0.0 0.0.0.31 area 0
+ router-id 10.10.10.1
+  network  10.0.0.0 0.0.0.31 area 0
+  network  172.16.0.0 0.0.0.31 area 0
+  network  192.168.0.0 0.0.255.255 area 0

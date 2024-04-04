@@ -7,9 +7,6 @@ vlan 20
 vlan 30
  name Client
 !
-vlan 99
- name switch
-!
 no ip domain-lookup
 !
 !interface range fa0/1 - 24
@@ -18,8 +15,9 @@ no ip domain-lookup
 ! switchport port-security violation restrict
 ! switchport port-security mac-address sticky
 !
-interface vlan 99
- ip address 10.0.0.2 255.255.255.224
+interface vlan 10
+ description MGMT
+ ip address 10.0.0.3 255.255.255.224
  no shutdown 
 !
 interface GigabitEthernet0/1
@@ -36,8 +34,8 @@ interface GigabitEthernet0/2
 !
 interface FastEthernet0/1
  description -> WAP Link
- switchport mode trunk
- switchport trunk allowed vlan 10,30
+ switchport mode access
+ switchport access vlan 30
  no shutdown
 !
 interface FastEthernet0/2

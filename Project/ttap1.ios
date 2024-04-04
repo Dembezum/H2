@@ -1,7 +1,10 @@
 hostname ttap1
 !
+ip dhcp excluded-address 192.168.0.1 192.168.0.10
+
 interface BVI1
- ip address 10.0.0.5 255.255.255.224
+ ip address 192.168.0.2 255.255.255.0
+ ip helper-address 192.168.0.1
  no shutdown
 !
 dot11 ssid tts
@@ -14,13 +17,6 @@ interface dot11Radio1
  encryption mode ciphers aes-ccm
  ssid tts
  no shutdown
-!
-ip dhcp excluded-address 192.168.0.1 192.168.1.10
- ip dhcp pool CLIENTS
- network 192.168.0.0 255.255.255.224
- default-router 192.168.0.1
- dns-server 1.1.1.1
- lease 7
 !
 ip domain-name tts.local
 crypto key generate rsa general-keys modulus 1024
