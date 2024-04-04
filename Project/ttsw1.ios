@@ -7,6 +7,9 @@ vlan 20
 vlan 30
  name Client
 !
+vlan 99
+ name switch
+!
 no ip domain-lookup
 !
 !interface range fa0/1 - 24
@@ -14,6 +17,10 @@ no ip domain-lookup
 ! switchport port-security maximum 1
 ! switchport port-security violation restrict
 ! switchport port-security mac-address sticky
+!
+interface vlan 99
+ ip address 10.0.0.2 255.255.255.224
+ no shutdown 
 !
 interface GigabitEthernet0/1
  description "Link to r1"

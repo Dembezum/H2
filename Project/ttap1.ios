@@ -4,10 +4,6 @@ interface BVI1
  ip address 10.0.0.5 255.255.255.224
  no shutdown
 !
-interface BVI2
- ip address 192.168.0.2 255.255.255.224
- no shutdown
-!
 dot11 ssid tts
  authentication open
  authentication key-management wpa version 2
