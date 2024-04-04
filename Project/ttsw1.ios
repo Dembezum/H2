@@ -9,11 +9,11 @@ vlan 30
 !
 no ip domain-lookup
 !
-!interface range fa0/1 - 24
-! switchport port-security
-! switchport port-security maximum 1
-! switchport port-security violation restrict
-! switchport port-security mac-address sticky
+interface range fa0/1 - 24
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security violation restrict
+ switchport port-security mac-address sticky
 !
 interface vlan 10
  description MGMT
