@@ -1,0 +1,36 @@
+hostname sw1
+!
+vlan 10
+ name MGMT
+vlan 20
+ name Server
+vlan 30
+ name Client
+!
+interface GigabitEthernet0/1
+ description "Link to r1"
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30
+ duplex auto
+ no shutdown
+!
+interface GigabitEthernet0/2
+ description "Link to r2"
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30
+ duplex auto
+ no shutdown
+!
+interface GigabitEthernet0/10
+ description "VPC"
+ switchport mode access
+ switchport access vlan 30
+ duplex auto
+ no shutdown
+!
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10 priority 0
+spanning-tree vlan 20 priority 0
+spanning-tree vlan 30 priority 0
