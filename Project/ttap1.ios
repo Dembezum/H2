@@ -1,10 +1,9 @@
 hostname ttap1
 !
-ip dhcp excluded-address 192.168.0.1 192.168.0.10
 
 interface BVI1
  ip address 192.168.0.2 255.255.255.0
- ip helper-address 192.168.0.1
+ ip helper-address 172.16.0.22
  no shutdown
 !
 dot11 ssid tts
