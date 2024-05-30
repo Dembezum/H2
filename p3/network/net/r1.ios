@@ -1,0 +1,182 @@
+hostname CR1
+!
+enable secret root
+ip dhcp excluded-address 10.0.30.1 10.0.30.10
+ip dhcp excluded-address 10.0.10.1 10.0.10.10
+ip dhcp excluded-address 10.0.20.1 10.0.20.10
+ip dhcp excluded-address 10.0.40.1 10.0.40.10
+!
+ip dhcp pool Mgmt
+ network 10.0.10.0 255.255.255.0
+ dns-server 1.1.1.1 1.0.0.1 
+ default-router 10.0.10.1 
+ lease 0 0 5
+!         
+ip dhcp pool Server
+ network 10.0.20.0 255.255.255.0
+ default-router 10.0.20.1 
+ dns-server 1.1.1.1 1.0.0.1 
+ lease 0 0 5
+!
+ip dhcp pool virtual
+ network 10.0.40.0 255.255.255.0
+ default-router 10.0.40.1 
+ dns-server 1.1.1.1 1.0.0.1 
+ lease 0 0 5
+!
+interface GigabitEthernet0/0
+ description LAN
+ no ip address
+ ip nat inside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0.10
+ description Mgmt
+ encapsulation dot1Q 10
+ ip address 10.0.10.1 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface GigabitEthernet0/0.20
+ description Server
+ encapsulation dot1Q 20
+ ip address 10.0.20.1 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+!         
+interface GigabitEthernet0/0.30
+ description Access
+ encapsulation dot1Q 30
+ ip address 10.0.30.1 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface GigabitEthernet0/0.40
+ description Virtual
+ encapsulation dot1Q 40
+ ip address 10.0.40.1 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface GigabitEthernet0/1
+ description WAN
+ ip address dhcp
+ ip nat outside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+router ospf 1
+ router-id 10.10.10.1
+ network 10.0.10.0 0.0.0.255 area 0
+ network 10.0.20.0 0.0.0.255 area 0
+ network 10.0.30.0 0.0.0.255 area 0
+ network 10.0.40.0 0.0.0.255 area 0
+
+access-list 1 permit any
+ip nat inside source list 1 interface GigabitEthernet0/1 overload
+!
+control-plane
+!
+hostname CR1
+!
+enable secret root
+ip dhcp excluded-address 10.0.30.1 10.0.30.10
+ip dhcp excluded-address 10.0.10.1 10.0.10.10
+ip dhcp excluded-address 10.0.20.1 10.0.20.10
+ip dhcp excluded-address 10.0.40.1 10.0.40.10
+!
+ip dhcp pool Mgmt
+ network 10.0.10.0 255.255.255.0
+ dns-server 1.1.1.1 1.0.0.1 
+ default-router 10.0.10.1 
+ lease 0 0 5
+!         
+ip dhcp pool Server
+ network 10.0.20.0 255.255.255.0
+ default-router 10.0.20.1 
+ dns-server 1.1.1.1 1.0.0.1 
+ lease 0 0 5
+!
+ip dhcp pool virtual
+ network 10.0.40.0 255.255.255.0
+ default-router 10.0.40.1 
+ dns-server 1.1.1.1 1.0.0.1 
+ lease 0 0 5
+!
+interface GigabitEthernet0/0
+ description LAN
+ no ip address
+ ip nat inside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0.10
+ description Mgmt
+ encapsulation dot1Q 10
+ ip address 10.0.10.1 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface GigabitEthernet0/0.20
+ description Server
+ encapsulation dot1Q 20
+ ip address 10.0.20.1 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+!         
+interface GigabitEthernet0/0.30
+ description Access
+ encapsulation dot1Q 30
+ ip address 10.0.30.1 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface GigabitEthernet0/0.40
+ description Virtual
+ encapsulation dot1Q 40
+ ip address 10.0.40.1 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface GigabitEthernet0/1
+ description WAN
+ ip address dhcp
+ ip nat outside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+!
+router ospf 1
+ router-id 10.10.10.1
+ network 10.0.10.0 0.0.0.255 area 0
+ network 10.0.20.0 0.0.0.255 area 0
+ network 10.0.30.0 0.0.0.255 area 0
+ network 10.0.40.0 0.0.0.255 area 0
+
+access-list 1 permit any
+ip nat inside source list 1 interface GigabitEthernet0/1 overload
+!
+control-plane
+!
+ip domain-name tts.local
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2
+username cr1 secret root
+enable secret root
+!
+line con 0
+login local
+password root
+!
+line aux 0
+login local
+password root
+!
+line vty 0 15
+login local
+password root
+transport input ssh

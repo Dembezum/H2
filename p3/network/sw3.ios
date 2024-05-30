@@ -1,0 +1,60 @@
+hostname ttsw3
+!
+vlan 10
+ name MGMT
+vlan 20
+ name Server
+vlan 30
+ name Access
+!
+no ip domain-lookup
+!
+interface GigabitEthernet0/1
+ description "Uplink to DS1"
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30
+ no shutdown
+!
+interface GigabitEthernet0/2
+ description "Uplink to DS2"
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30
+ no shutdown
+!
+interface range fa0/7 - 12
+ description "Server"
+ switchport mode access
+ switchport access vlan 20
+ no shutdown
+!
+interface range fa0/1 - 6
+ description "MGMT"
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+!
+interface range fa0/13 - 20
+ description "Access"
+ switchport mode access
+ switchport access vlan 30
+ no shutdown
+!
+spanning-tree mode rapid-pvst
+spanning-tree vlan 10 priority 4096
+spanning-tree vlan 20 priority 8192
+spanning-tree vlan 30 priority 12288
+!
+ip domain-name tts.local
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2
+username ttsw3 secret root
+enable secret root
+!
+line con 0
+login local
+password cisco
+!
+line vty 0 15
+login local
+password cisco
+transport input ssh
